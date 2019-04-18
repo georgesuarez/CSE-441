@@ -24,6 +24,7 @@ public class UnitSpawnerSystem : JobComponentSystem
         {
             if (mouseInput.LeftClickDown)
             {
+                mouseInput.LeftClickDown = false;
                 var instance = CommandBuffer.Instantiate(spawner.Prefab);
                 var position = mouseInput.MouseRaycastPosition;
                 CommandBuffer.SetComponent(instance, new Translation { Value = position });

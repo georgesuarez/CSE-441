@@ -21,7 +21,8 @@ public class HealthSystem : JobComponentSystem
         {
             if (rightClick)
             {
-                health.Value -= 10;
+                rightClick = false;
+                health.Value -= 1;
             }
 
             if (health.Value <= 0)
