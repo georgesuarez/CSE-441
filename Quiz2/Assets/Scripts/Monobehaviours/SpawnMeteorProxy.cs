@@ -6,12 +6,14 @@ using UnityEngine;
 public class SpawnMeteorProxy : MonoBehaviour, IConvertGameObjectToEntity, IDeclareReferencedPrefabs
 {
     public GameObject Prefab;
+    public int damage = 1;
 
     public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {
         var spawnMeteor = new MeteorSpawner
         {
-            Prefab = conversionSystem.GetPrimaryEntity(Prefab)
+            Prefab = conversionSystem.GetPrimaryEntity(Prefab),
+            Damage = damage
         };
         dstManager.AddComponentData(entity, spawnMeteor);
     }

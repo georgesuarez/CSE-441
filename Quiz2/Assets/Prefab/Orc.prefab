@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 438189689817824682}
   - component: {fileID: 4059018893998090079}
   - component: {fileID: 1258658362651353525}
+  - component: {fileID: 4921476837999555800}
   m_Layer: 0
   m_Name: Orc
   m_TagString: Untagged
@@ -91,3 +92,16 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &4921476837999555800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3395534517818809654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac279a1c413edb845896c9277c820be7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthValue: 100
