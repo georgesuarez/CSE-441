@@ -13,17 +13,17 @@ public class MeteorSpawnerSystem : JobComponentSystem
         m_EntityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
     }
 
-    struct MeteorSpawnJob : IJobForEachWithEntity<MeteorSpawner>
+    struct MeteorSpawnJob : IJobForEachWithEntity<MeteorSpawner, Translation>
     {
         public EntityCommandBuffer CommandBuffer;
-        public float3 MouseRaycastPosition;
 
-        public void Execute(Entity entity, int index, ref MeteorSpawner meteorSpawner)
+        public void Execute(Entity entity, int index, ref MeteorSpawner meteorSpawner, ref Translation position)
         {
             var instance = CommandBuffer.Instantiate(meteorSpawner.Prefab);
 
-            CommandBuffer.SetComponent(instance, new Translation { Value = MouseRaycastPosition });
-            CommandBuffer.AddComponent(instance, new Target { Destination = float3.zero });
+            CommandBuffer.SetComponent(instance, new Translation { Value =  position.Value });
+            CommandBuffer.AddComponent(instance, new SpellTag { });
+            CommandBuffer.AddComponent(instance, new MovementSpeed { Value = 400f });
         }
     }
 
@@ -41,7 +41,6 @@ public class MeteorSpawnerSystem : JobComponentSystem
             var meteorSpawnJob = new MeteorSpawnJob
             {
                 CommandBuffer = m_EntityCommandBufferSystem.CreateCommandBuffer(),
-                MouseRaycastPosition = mouse.CurrentMouseRaycastPosition,
             };
 
             jobHandle = meteorSpawnJob.ScheduleSingle(this, inputDeps);
