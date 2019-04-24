@@ -8,14 +8,21 @@ using UnityEngine;
 
 public class MeteaorMovementSystem : JobComponentSystem
 {
-    [BurstCompile]
-    [RequireComponentTag(typeof(SpellTag))]
-    struct MeteaorMovementJob : IJobForEach<MovementSpeed, Translation>
+    BeginSimulationEntityCommandBufferSystem m_EntityCommandBufferSystem;
+
+    protected override void OnCreate()
     {
+        m_EntityCommandBufferSystem = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
+    }
+
+    [RequireComponentTag(typeof(SpellTag))]
+    struct MeteaorMovementJob : IJobForEachWithEntity<MovementSpeed, Translation>
+    {
+        public EntityCommandBuffer CommandBuffer;
         [ReadOnly] public float deltaTime;
         public float3 MouseRaycastPosition;
 
-        public void Execute(ref MovementSpeed movementSpeed, ref Translation position)
+        public void Execute(Entity entity, int index, ref MovementSpeed movementSpeed, ref Translation position)
         {
             var distance = math.distance(MouseRaycastPosition, position.Value);
             var direction = math.normalize(MouseRaycastPosition - position.Value);
@@ -23,6 +30,10 @@ public class MeteaorMovementSystem : JobComponentSystem
             if (!(distance < 1))
             {
                 position.Value += direction * movementSpeed.Value * deltaTime;
+            }
+            else if (distance < 1)
+            {
+                CommandBuffer.AddComponent(entity, new Collided { });
             }
         }
     }
@@ -33,11 +44,13 @@ public class MeteaorMovementSystem : JobComponentSystem
 
         var meteaorMovementJob = new MeteaorMovementJob
         {
+            CommandBuffer = m_EntityCommandBufferSystem.CreateCommandBuffer(),
             deltaTime = Time.deltaTime,
             MouseRaycastPosition = mouse.CurrentMouseRaycastPosition
-        };
+        }.ScheduleSingle(this, inputDeps);
 
+        m_EntityCommandBufferSystem.AddJobHandleForProducer(meteaorMovementJob);
 
-        return meteaorMovementJob.Schedule(this, inputDeps);
+        return meteaorMovementJob;
     }
 }
