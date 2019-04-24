@@ -23,7 +23,7 @@ public class MeteorSpawnerSystem : JobComponentSystem
             var instance = CommandBuffer.Instantiate(meteorSpawner.Prefab);
 
             CommandBuffer.SetComponent(instance, new Translation { Value = MouseRaycastPosition });
-
+            CommandBuffer.AddComponent(instance, new Target { Destination = float3.zero });
         }
     }
 
@@ -31,7 +31,24 @@ public class MeteorSpawnerSystem : JobComponentSystem
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
         var keyboard = GetSingleton<SingletonKeyboardInput>();
+        var mouse = GetSingleton<SingletonMouseInput>();
 
-        return inputDeps;
+        var jobHandle = inputDeps;
+
+        if (keyboard.E_Key)
+        {
+            keyboard.E_Key = false;
+            var meteorSpawnJob = new MeteorSpawnJob
+            {
+                CommandBuffer = m_EntityCommandBufferSystem.CreateCommandBuffer(),
+                MouseRaycastPosition = mouse.CurrentMouseRaycastPosition,
+            };
+
+            jobHandle = meteorSpawnJob.ScheduleSingle(this, inputDeps);
+
+            jobHandle.Complete();
+        }
+
+        return jobHandle;
     }
 }

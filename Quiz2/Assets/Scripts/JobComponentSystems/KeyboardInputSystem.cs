@@ -11,7 +11,7 @@ public class KeyboardInputSystem : JobComponentSystem
         keyboardInput.HorizontalMovement = Input.GetAxis("Horizontal");
         keyboardInput.VerticalMovement = Input.GetAxis("Vertical");
 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             keyboardInput.SpaceBar = true;
         }
@@ -20,7 +20,7 @@ public class KeyboardInputSystem : JobComponentSystem
             keyboardInput.SpaceBar = false;
         }
 
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             keyboardInput.Q_Key = true;
         }
@@ -30,7 +30,7 @@ public class KeyboardInputSystem : JobComponentSystem
         }
 
 
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             keyboardInput.W_Key = true;
         }
@@ -40,7 +40,7 @@ public class KeyboardInputSystem : JobComponentSystem
         }
 
 
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             keyboardInput.E_Key = true;
         }
@@ -50,7 +50,7 @@ public class KeyboardInputSystem : JobComponentSystem
         }
 
 
-        if (Input.GetKey(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             keyboardInput.R_Key = true;
         }
