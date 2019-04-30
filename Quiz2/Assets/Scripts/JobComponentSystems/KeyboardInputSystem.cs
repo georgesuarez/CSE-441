@@ -43,6 +43,11 @@ public class KeyboardInputSystem : JobComponentSystem
         if (Input.GetKeyDown(KeyCode.E))
         {
             keyboardInput.E_Key = true;
+
+            if (!keyboardInput.E_KeyActive)
+            {
+                keyboardInput.E_KeyActive = true;
+            }
         }
         else
         {

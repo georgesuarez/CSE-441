@@ -15,22 +15,22 @@ public class MeteorMovementSystem : JobComponentSystem
     }
 
     [RequireComponentTag(typeof(SpellTag))]
-    struct MeteorMovementJob : IJobForEachWithEntity<MovementSpeed, Translation>
+    struct MeteorMovementJob : IJobForEachWithEntity<MovementSpeed, Target, Translation>
     {
         public EntityCommandBuffer CommandBuffer;
         [ReadOnly] public float deltaTime;
-        public float3 MouseRaycastPosition;
 
-        public void Execute(Entity entity, int index, ref MovementSpeed movementSpeed, ref Translation position)
+        public void Execute(Entity entity, int index, ref MovementSpeed movementSpeed, ref Target target, ref Translation position)
         {
-            var distance = math.distance(MouseRaycastPosition, position.Value);
-            var direction = math.normalize(MouseRaycastPosition - position.Value);
+            var distance = math.distance(target.Destination, position.Value);
+            var direction = math.normalize(target.Destination - position.Value);
 
             if (!(distance < 1))
             {
                 position.Value += direction * movementSpeed.Value * deltaTime;
             }
-            else if (distance < 1)
+
+            if (distance <= 10)
             {
                 CommandBuffer.AddComponent(entity, new Collided { });
             }
@@ -39,13 +39,10 @@ public class MeteorMovementSystem : JobComponentSystem
 
     protected override JobHandle OnUpdate(JobHandle inputDeps)
     {
-        var mouse = GetSingleton<SingletonMouseInput>();
-
         var meteorMovementJob = new MeteorMovementJob
         {
             CommandBuffer = m_EntityCommandBufferSystem.CreateCommandBuffer(),
             deltaTime = Time.deltaTime,
-            MouseRaycastPosition = mouse.CurrentMouseRaycastPosition
         }.ScheduleSingle(this, inputDeps);
 
         m_EntityCommandBufferSystem.AddJobHandleForProducer(meteorMovementJob);
