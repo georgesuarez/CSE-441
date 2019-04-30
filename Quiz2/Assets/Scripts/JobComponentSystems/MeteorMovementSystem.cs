@@ -20,7 +20,7 @@ public class MeteorMovementSystem : JobComponentSystem
         public EntityCommandBuffer CommandBuffer;
         [ReadOnly] public float deltaTime;
 
-        public void Execute(Entity entity, int index, ref MovementSpeed movementSpeed, ref Target target, ref Translation position)
+        public void Execute(Entity entity, int index, [ReadOnly] ref MovementSpeed movementSpeed, ref Target target, ref Translation position)
         {
             var distance = math.distance(target.Destination, position.Value);
             var direction = math.normalize(target.Destination - position.Value);

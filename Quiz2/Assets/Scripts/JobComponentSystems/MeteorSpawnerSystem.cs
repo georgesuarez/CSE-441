@@ -2,7 +2,6 @@
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Transforms;
-using UnityEngine;
 
 public class MeteorSpawnerSystem : JobComponentSystem
 {
@@ -37,11 +36,11 @@ public class MeteorSpawnerSystem : JobComponentSystem
 
         var jobHandle = inputDeps;
 
-        if (keyboard.E_KeyActive)
+        if (keyboard.Q_KeyActive)
         {
             if (mouse.LeftClickDown)
             {
-                keyboard.E_KeyActive = false;
+                keyboard.Q_KeyActive = false;
 
                 SetSingleton<SingletonKeyboardInput>(keyboard);
 
@@ -56,8 +55,6 @@ public class MeteorSpawnerSystem : JobComponentSystem
                 jobHandle.Complete();
             }
         }
-
-
         return jobHandle;
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Unity.Entities;
 using Unity.Collections;
 
-public class ColliderSystem : ComponentSystem
+public class MeteorColliderSystem : ComponentSystem
 {
     public EntityQuery entityQuery;
 

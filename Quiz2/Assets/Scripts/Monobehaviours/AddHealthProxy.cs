@@ -1,6 +1,5 @@
 ﻿using Unity.Entities;
 using UnityEngine;
-using System.Collections;
 
 public class AddHealthProxy : MonoBehaviour, IConvertGameObjectToEntity
 {

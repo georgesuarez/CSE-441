@@ -22,9 +22,9 @@ public class TeleportationSpellSystem : JobComponentSystem
         var mouse = GetSingleton<SingletonMouseInput>();
         var keyboard = GetSingleton<SingletonKeyboardInput>();
 
-        if (keyboard.Q_Key)
+        if (keyboard.E_Key)
         {
-            keyboard.Q_Key = false;
+            keyboard.E_Key = false;
 
             var teleportJob = new TeleportationSpellJob
             {

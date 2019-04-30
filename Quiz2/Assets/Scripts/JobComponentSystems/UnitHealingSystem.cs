@@ -1,11 +1,12 @@
 ﻿using Unity.Entities;
 using Unity.Jobs;
 using Unity.Transforms;
-using Unity.Collections;
+using Unity.Burst;
 using Unity.Mathematics;
 
 public class UnitHealingSystem : JobComponentSystem
 {
+    [BurstCompile]
     [RequireComponentTag(typeof(TagSelected))]
     struct UnitHealingJob : IJobForEach<Health, Translation>
     {

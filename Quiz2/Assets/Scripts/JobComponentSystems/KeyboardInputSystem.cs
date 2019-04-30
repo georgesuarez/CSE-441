@@ -23,6 +23,11 @@ public class KeyboardInputSystem : JobComponentSystem
         if (Input.GetKeyDown(KeyCode.Q))
         {
             keyboardInput.Q_Key = true;
+
+            if (!keyboardInput.Q_KeyActive)
+            {
+                keyboardInput.Q_KeyActive = true;
+            }
         }
         else
         {
@@ -43,11 +48,6 @@ public class KeyboardInputSystem : JobComponentSystem
         if (Input.GetKeyDown(KeyCode.E))
         {
             keyboardInput.E_Key = true;
-
-            if (!keyboardInput.E_KeyActive)
-            {
-                keyboardInput.E_KeyActive = true;
-            }
         }
         else
         {
