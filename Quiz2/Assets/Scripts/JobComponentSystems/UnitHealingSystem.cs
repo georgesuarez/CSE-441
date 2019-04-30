@@ -6,22 +6,20 @@ using Unity.Mathematics;
 
 public class UnitHealingSystem : JobComponentSystem
 {
-    BeginInitializationEntityCommandBufferSystem m_EntityCommandBufferSystem;
-
-    protected override void OnCreate()
+    [RequireComponentTag(typeof(TagSelected))]
+    struct UnitHealingJob : IJobForEach<Health, Translation>
     {
-        m_EntityCommandBufferSystem = World.GetOrCreateSystem<BeginInitializationEntityCommandBufferSystem>();
-    }
-
-    struct UnitHealingJob : IJobForEachWithEntity<Health>
-    {
-        public EntityCommandBuffer CommandBuffer;
-        public float3 MouseRaycastPosition;
+        public float3 CurrentMouseRaycastPosition;
         public int healingPoints;
 
-        public void Execute(Entity entity, int index, ref Health health)
+        public void Execute(ref Health health, ref Translation position)
         {
-            health.Value += healingPoints;
+            position.Value = CurrentMouseRaycastPosition;
+
+            if (health.Value < 100)
+            {
+                health.Value += healingPoints;
+            }
         }
     }
 
@@ -38,7 +36,7 @@ public class UnitHealingSystem : JobComponentSystem
 
             var healingJob = new UnitHealingJob
             {
-                CommandBuffer = m_EntityCommandBufferSystem.CreateCommandBuffer(),
+                CurrentMouseRaycastPosition = mouse.CurrentMouseRaycastPosition,
                 healingPoints = 5
             };
 
@@ -46,8 +44,6 @@ public class UnitHealingSystem : JobComponentSystem
 
             jobHandle.Complete();
         }
-
-
         return jobHandle;
     }
 }

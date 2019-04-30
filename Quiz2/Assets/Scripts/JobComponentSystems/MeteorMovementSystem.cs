@@ -1,12 +1,11 @@
-﻿using Unity.Burst;
-using Unity.Collections;
+﻿using Unity.Collections;
 using Unity.Entities;
 using Unity.Jobs;
 using Unity.Transforms;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class MeteaorMovementSystem : JobComponentSystem
+public class MeteorMovementSystem : JobComponentSystem
 {
     BeginSimulationEntityCommandBufferSystem m_EntityCommandBufferSystem;
 
@@ -16,7 +15,7 @@ public class MeteaorMovementSystem : JobComponentSystem
     }
 
     [RequireComponentTag(typeof(SpellTag))]
-    struct MeteaorMovementJob : IJobForEachWithEntity<MovementSpeed, Translation>
+    struct MeteorMovementJob : IJobForEachWithEntity<MovementSpeed, Translation>
     {
         public EntityCommandBuffer CommandBuffer;
         [ReadOnly] public float deltaTime;
@@ -42,15 +41,15 @@ public class MeteaorMovementSystem : JobComponentSystem
     {
         var mouse = GetSingleton<SingletonMouseInput>();
 
-        var meteaorMovementJob = new MeteaorMovementJob
+        var meteorMovementJob = new MeteorMovementJob
         {
             CommandBuffer = m_EntityCommandBufferSystem.CreateCommandBuffer(),
             deltaTime = Time.deltaTime,
             MouseRaycastPosition = mouse.CurrentMouseRaycastPosition
         }.ScheduleSingle(this, inputDeps);
 
-        m_EntityCommandBufferSystem.AddJobHandleForProducer(meteaorMovementJob);
+        m_EntityCommandBufferSystem.AddJobHandleForProducer(meteorMovementJob);
 
-        return meteaorMovementJob;
+        return meteorMovementJob;
     }
 }
