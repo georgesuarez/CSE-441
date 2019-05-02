@@ -3,20 +3,20 @@ using Unity.Collections;
 
 public class MeteorColliderSystem : ComponentSystem
 {
-    public EntityQuery entityQuery;
+    public EntityQuery meteorQuery;
 
     protected override void OnCreateManager()
     {
-        entityQuery = GetEntityQuery(typeof(Collided));
+        meteorQuery = GetEntityQuery(typeof(Collided));
     }
 
     protected override void OnUpdate()
     {
-        using (var collided = entityQuery.ToEntityArray(Allocator.TempJob))
+        using (var meteors = meteorQuery.ToEntityArray(Allocator.TempJob))
         {
-            foreach (var destroy in collided)
+            foreach (var meteor in meteors)
             {
-                EntityManager.DestroyEntity(destroy);
+                EntityManager.DestroyEntity(meteor);
             }
         }
     }

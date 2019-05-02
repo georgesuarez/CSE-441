@@ -14,7 +14,7 @@ public class MeteorMovementSystem : JobComponentSystem
         m_EntityCommandBufferSystem = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
     }
 
-    [RequireComponentTag(typeof(SpellTag))]
+    [RequireComponentTag(typeof(MeteorTag))]
     struct MeteorMovementJob : IJobForEachWithEntity<MovementSpeed, Target, Translation>
     {
         public EntityCommandBuffer CommandBuffer;

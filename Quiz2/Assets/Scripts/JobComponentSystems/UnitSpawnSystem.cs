@@ -16,16 +16,18 @@ public class UnitSpawnSystem : JobComponentSystem
     struct UnitSpawnJob : IJobForEachWithEntity<SpawnUnit>
     {
         public EntityCommandBuffer CommandBuffer;
-        public float3 MouseRayPosition;
+        public float3 CurrentMouseRaycastPosition;
 
         public void Execute(Entity entity, int index, ref SpawnUnit spawner)
         {
             var instance = CommandBuffer.Instantiate(spawner.Prefab);
 
-            CommandBuffer.SetComponent(instance, new Translation { Value = MouseRayPosition });
+            CommandBuffer.SetComponent(instance, new Translation { Value = CurrentMouseRaycastPosition });
             CommandBuffer.AddComponent(instance, new Selectable { SelectSize = 25.0f });
-            CommandBuffer.AddComponent(instance, new Target { Destination = float3.zero });
+            CommandBuffer.AddComponent(instance, new Target { Destination = float3.zero, Action = UnitAction.Defend });
             CommandBuffer.AddComponent(instance, new MovementSpeed { Value = 25.0f });
+            CommandBuffer.AddComponent(instance, new Health {  Value = 100 });
+            CommandBuffer.AddComponent(instance, new TagOrc { });
         }
     }
 
@@ -42,7 +44,7 @@ public class UnitSpawnSystem : JobComponentSystem
             var unitJob = new UnitSpawnJob
             {
                 CommandBuffer = m_EntityCommandBufferSystem.CreateCommandBuffer(),
-                MouseRayPosition = mouse.CurrentMouseRaycastPosition
+                CurrentMouseRaycastPosition = mouse.CurrentMouseRaycastPosition
             }.ScheduleSingle(this, inputDeps);
 
             m_EntityCommandBufferSystem.AddJobHandleForProducer(unitJob);

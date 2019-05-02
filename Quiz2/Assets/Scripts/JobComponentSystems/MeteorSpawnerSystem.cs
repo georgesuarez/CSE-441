@@ -22,9 +22,10 @@ public class MeteorSpawnerSystem : JobComponentSystem
             var instance = CommandBuffer.Instantiate(meteorSpawner.Prefab);
 
             CommandBuffer.SetComponent(instance, new Translation { Value = position.Value });
-            CommandBuffer.AddComponent(instance, new SpellTag { });
+            CommandBuffer.AddComponent(instance, new MeteorTag { });
             CommandBuffer.AddComponent(instance, new Target { Destination = InitialMouseRaycastPosition });
             CommandBuffer.AddComponent(instance, new MovementSpeed { Value = 400f });
+            CommandBuffer.AddComponent(instance, new Damage {  Value = 10 });
         }
     }
 

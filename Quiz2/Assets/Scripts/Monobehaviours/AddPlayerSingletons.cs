@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Unity.Entities;
+﻿using Unity.Entities;
 using Unity.Mathematics;
-using Unity.Transforms;
 using UnityEngine;
 
 [RequiresEntityConversion]
@@ -30,6 +27,7 @@ public class AddPlayerSingletons : MonoBehaviour, IConvertGameObjectToEntity
             SpaceBar = false,
             W_Key = false,
             Q_Key = false,
+            Q_KeyActive = false,
             E_Key = false,
             R_Key = false,
             HorizontalMovement = 0.0f,
