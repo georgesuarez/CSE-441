@@ -8,7 +8,6 @@ public struct SingletonKeyboardInput : IComponentData
     public bool W_Key;
     public bool E_Key;
     public bool R_Key;
-    public bool F_Key;
     public float HorizontalMovement;
     public float VerticalMovement;
 }

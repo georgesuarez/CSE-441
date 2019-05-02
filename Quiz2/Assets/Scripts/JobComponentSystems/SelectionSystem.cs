@@ -6,8 +6,6 @@ using Unity.Mathematics;
 using Unity.Collections;
 using UnityEngine;
 
-// TODO: Implement double click feature to select all units of that same type within the entire screen.
-
 [UpdateAfter(typeof(MouseInputSystem))]
 public class SelectionSystem : JobComponentSystem
 {

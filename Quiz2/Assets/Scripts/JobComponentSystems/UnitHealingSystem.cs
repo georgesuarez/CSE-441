@@ -11,13 +11,13 @@ public class UnitHealingSystem : JobComponentSystem
     struct UnitHealingJob : IJobForEach<Health, Translation>
     {
         public float3 CurrentMouseRaycastPosition;
-        public int healingPoints;
+        public float healingPoints;
 
         public void Execute(ref Health health, ref Translation position)
         {
             position.Value = CurrentMouseRaycastPosition;
 
-            if (health.Value < 100)
+            if (health.Value < 100f)
             {
                 health.Value += healingPoints;
             }
@@ -38,7 +38,7 @@ public class UnitHealingSystem : JobComponentSystem
             var healingJob = new UnitHealingJob
             {
                 CurrentMouseRaycastPosition = mouse.CurrentMouseRaycastPosition,
-                healingPoints = 5
+                healingPoints = 10f
             };
 
             jobHandle = healingJob.ScheduleSingle(this, inputDeps);

@@ -26,7 +26,7 @@ public class UnitSpawnSystem : JobComponentSystem
             CommandBuffer.AddComponent(instance, new Selectable { SelectSize = 25.0f });
             CommandBuffer.AddComponent(instance, new Target { Destination = float3.zero, Action = UnitAction.Defend });
             CommandBuffer.AddComponent(instance, new MovementSpeed { Value = 25.0f });
-            CommandBuffer.AddComponent(instance, new Health {  Value = 100 });
+            CommandBuffer.AddComponent(instance, new Health {  Value = 100f });
             CommandBuffer.AddComponent(instance, new TagOrc { });
         }
     }

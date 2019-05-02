@@ -64,15 +64,6 @@ public class KeyboardInputSystem : JobComponentSystem
             keyboardInput.R_Key = false;
         }
 
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            keyboardInput.F_Key = true;
-        }
-        else
-        {
-            keyboardInput.F_Key = false;
-        }
-
         SetSingleton<SingletonKeyboardInput>(keyboardInput);
 
         return inputDeps;

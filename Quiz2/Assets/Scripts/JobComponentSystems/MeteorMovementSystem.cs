@@ -14,13 +14,13 @@ public class MeteorMovementSystem : JobComponentSystem
         m_EntityCommandBufferSystem = World.GetOrCreateSystem<BeginSimulationEntityCommandBufferSystem>();
     }
 
-    [RequireComponentTag(typeof(MeteorTag))]
-    struct MeteorMovementJob : IJobForEachWithEntity<MovementSpeed, Target, Translation>
+    [RequireComponentTag(typeof(MeteorSpell))]
+    struct MeteorMovementJob : IJobForEachWithEntity<MovementSpeed, Target, Translation, MeteorTag>
     {
         public EntityCommandBuffer CommandBuffer;
         [ReadOnly] public float deltaTime;
 
-        public void Execute(Entity entity, int index, [ReadOnly] ref MovementSpeed movementSpeed, ref Target target, ref Translation position)
+        public void Execute(Entity entity, int index, [ReadOnly] ref MovementSpeed movementSpeed, ref Target target, ref Translation position, ref MeteorTag meteor)
         {
             var distance = math.distance(target.Destination, position.Value);
             var direction = math.normalize(target.Destination - position.Value);
@@ -32,7 +32,9 @@ public class MeteorMovementSystem : JobComponentSystem
 
             if (distance <= 10)
             {
+                meteor.collisionSite = position.Value;
                 CommandBuffer.AddComponent(entity, new Collided { });
+                CommandBuffer.RemoveComponent<MeteorSpell>(entity);
             }
         }
     }
